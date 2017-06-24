@@ -46,7 +46,15 @@
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
 </head>
 
-<body>
+<body class="click-disabled">
+
+<div class="loader">
+    <div class="loader-content">
+        <img class="img-responsive center-block" src="img/loader.gif" alt="sans_loader">
+        <h3 class="loading">LOADING<span>.</span><span>.</span><span>.</span></h3>
+    </div>
+</div>
+
 <div class="container">
     <div class="character sans">
         <img class="center-block glitch-img" src="img/sans_standing.gif" alt="sans_standing">
@@ -194,11 +202,23 @@
     </div>
 
     <div class="scenario gamaovar-no text-center hidden">
-        <video src="video/heart_broken.mp4" height="600px"></video>
+        <video src="video/heart_broken.mp4" width="100%"></video>
     </div>
 
 </div>
 <script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('.loader').addClass('fade_out');
+            setTimeout(function () {
+                $('.loader').addClass('hidden');
+                $('.sans').addClass('fade_in');
+                setTimeout(function () {
+                    $('body').removeClass('click-disabled');
+                },330);
+            }, 330);
+        }, 2000);
+    });
 
     function showText(target, message, index, interval, internal, audio) {
         if (index < message.length) {
@@ -268,7 +288,7 @@
                         message = 'and he loves you quite a lot';
                         break;
                     case 10:
-                        message = 'of course, you probably already knew that';
+                        message = 'of course, you probably already know that';
                         break;
                     case 11:
                         message = 'what i\'m trying to say is...';
@@ -298,17 +318,17 @@
                         message = 'anyway kiddo, so it comes down to this';
                         break;
                     case 18:
-                        message = 'you gotta make a choice';
+                        message = 'a final battle approaches';
                         break;
                     case 19:
                         break;
                 }
 
                 if (click < 19) {
-                    showText(speech, message, 0, 60, false, audio);
+                    showText(speech, message, 0, 50, false, audio);
                     click++;
                 } else {
-                    $('.sans').addClass('fade_out');
+                    $('.sans').removeClass('fade_in').addClass('fade_out');
                     setTimeout(function () {
                         $('.character').addClass('hidden');
                         $('.scenario.choice').removeClass('hidden');

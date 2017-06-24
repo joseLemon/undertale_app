@@ -20,11 +20,33 @@ body {
     font-family: 'determination',sans-serif;
 }
 
-
-.fade_out {
-    opacity: 0;
+.loader {
+    height: 100vh;
+    width: 100vw;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: opacity 300ms ease;
 }
 
+.loader-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    color: #fff;
+}
+
+.fade_in {
+    opacity: 1!important;
+}
+
+.fade_out {
+    opacity: 0!important;
+}
 
 .container {
     position: relative;
@@ -51,13 +73,13 @@ body {
 }
 
 .scenario {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
     transition: opacity 300ms ease;
 }
 
 .scenario.choice {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     max-width: 700px;
     margin: 30px auto!important;
 }
@@ -163,6 +185,10 @@ body {
     line-height: 0;
 }
 
+.sans {
+    opacity: 0;
+}
+
 .sans .speech::after {
     left: -20px;
     border-right: 20px solid #FFF;
@@ -179,6 +205,8 @@ body {
 
 .papyrus .speech {
     font-size: 16px;
+    padding: 20px 12px;
+    left: calc(50% + 160px);
 }
 
 .speech .text-container {
@@ -233,4 +261,33 @@ svg {
     from, to { border-color: transparent }
     50% { border-color: #fff; }
 }*/
+
+@-webkit-keyframes opacity {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes opacity {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.loading span {
+    -webkit-animation-name: opacity;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: opacity;
+    -moz-animation-duration: 1s;
+    -moz-animation-iteration-count: infinite;
+}
+
+.loading span:nth-child(2) {
+    -webkit-animation-delay: 100ms;
+    -moz-animation-delay: 100ms;
+}
+
+.loading span:nth-child(3) {
+    -webkit-animation-delay: 300ms;
+    -moz-animation-delay: 300ms;
+}
 
