@@ -77,11 +77,14 @@ body {
 }
 
 .scenario.choice {
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+.scenario.gamaovar-yes {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    max-width: 700px;
-    margin: 30px auto!important;
 }
 
 .message-to-player {
@@ -226,6 +229,7 @@ body {
 }
 
 svg {
+    max-width: 100%;
     width: 600px;
     height: 120px;
     display: block;
