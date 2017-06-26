@@ -40,6 +40,26 @@ body {
     color: #fff;
 }
 
+.loading span {
+    -webkit-animation-name: opacity;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: opacity;
+    -moz-animation-duration: 1s;
+    -moz-animation-iteration-count: infinite;
+}
+
+.loading span:nth-child(2) {
+    -webkit-animation-delay: 100ms;
+    -moz-animation-delay: 100ms;
+}
+
+.loading span:nth-child(3) {
+    -webkit-animation-delay: 300ms;
+    -moz-animation-delay: 300ms;
+}
+
 .fade_in {
     opacity: 1!important;
 }
@@ -73,18 +93,25 @@ body {
 }
 
 .scenario {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     transition: opacity 300ms ease;
 }
 
 .scenario.choice {
     max-width: 700px;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
 }
 
-.scenario.gamaovar-yes {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+.scenario.gamaovar-yes .message-to-player {
+    height: 160px;
+}
+
+.scenario.secret img {
+    opacity: 0;
+    transition: opacity 300ms ease;
 }
 
 .message-to-player {
@@ -93,7 +120,7 @@ body {
     text-align: left;
     font-size: 28px;
     padding: 15px 20px;
-    height: 200px;
+    height: auto;
     max-width: 700px;
     margin: 0 auto;
 }
@@ -170,7 +197,7 @@ body {
     color: #000;
     font-size: 18px;
     background-color: #fff;
-    padding: 30px 20px;
+    padding: 20px 12px;
     border-radius: 10px;
     width: 220px;
 }
@@ -239,33 +266,6 @@ svg {
     background: black;
 }
 
-
-/* TYPEWRITER EFFECT */
-/*.typewriter {
-    display: block;
-    overflow: hidden; /* Ensures the content is not revealed until the animation
-    border-right: .20em solid #fff; /* The typwriter cursor
-    white-space: nowrap; /* Keeps the content on a single line
-    margin: 0 auto; /* Gives that scrolling effect as the typing happens
-    letter-spacing: .20em; /* Adjust as needed
-    animation:
-            typing 1s steps(40, end),
-            blink-caret .75s step-end infinite;
-    line-height: 1;
-}
-
-/* The typing effect
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-/* The typewriter cursor effect
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #fff; }
-}*/
-
 @-webkit-keyframes opacity {
     0% { opacity: 1; }
     100% { opacity: 0; }
@@ -275,23 +275,21 @@ svg {
     100% { opacity: 0; }
 }
 
-.loading span {
-    -webkit-animation-name: opacity;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-iteration-count: infinite;
-
-    -moz-animation-name: opacity;
-    -moz-animation-duration: 1s;
-    -moz-animation-iteration-count: infinite;
+.secret_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    background-color: #fff;
+    color: #000;
 }
-
-.loading span:nth-child(2) {
-    -webkit-animation-delay: 100ms;
-    -moz-animation-delay: 100ms;
+.secret_button::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    width: 0;
+    height: 0;
+    left: 6px;
+    border-top: 8px solid #FFF;
+    border-right: 6px transparent solid;
 }
-
-.loading span:nth-child(3) {
-    -webkit-animation-delay: 300ms;
-    -moz-animation-delay: 300ms;
-}
-

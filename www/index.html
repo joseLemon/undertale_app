@@ -57,11 +57,16 @@
 
 <div class="container">
     <div class="character sans">
-        <img class="center-block glitch-img" src="img/sans_standing.gif" alt="sans_standing">
+        <img id="sans_standing" class="center-block glitch-img" src="img/sans_standing.gif" alt="sans_standing">
+        <img id="sans_wink" class="center-block glitch-img hidden" src="img/sans_wink.jpg" alt="sans_wink">
         <span class="speech">
             <span class="text-container"></span>
         </span>
         <audio src="audio/sans_talk.mp3"></audio>
+    </div>
+
+    <div class="fx_sans">
+        <audio src="audio/sans_theme.ogx" loop></audio>
     </div>
 
     <div class="character papyrus">
@@ -76,7 +81,7 @@
     </div>
 
     <div class="scenario choice text-center hidden">
-        <img src="img/heart.png" alt="player_heart">
+        <img src="img/heart.png" alt="player_heart" style="height: 75px;">
         <div class="message-to-player">
             <p>
                 * A DECISION IS IN FRONT OF YOU
@@ -92,7 +97,7 @@
         </div>
         <div class="row decision-box">
             <div class="col-xs-6">
-                <button id="btn-yes"><img src="img/mercy.png" alt="mercy"> YES</button>
+                <button id="btn-yes"><img src="img/mercy.png" alt="mercy" style="letter-spacing: 6px;"> YES</button>
             </div>
             <div class="col-xs-6">
                 <button id="btn-nope"><img src="img/attack.png" alt="attack"> NOPE</button>
@@ -199,10 +204,16 @@
             <p>YOUR JOURNEY TOGETHER HAS JUST BEGUN.</p>
             <p>YESICA, STAY DETERMINED!</p>
         </div>
+        <button id="secret_button" class="secret_button">!</button>
     </div>
 
     <div class="scenario gamaovar-no text-center hidden">
         <video src="video/heart_broken.mp4" width="100%"></video>
+    </div>
+
+    <div class="scenario secret text-center hidden">
+        <img src="img/secret_dance.gif" alt="secret_dance">
+        <audio src="audio/secret_theme.ogx" loop></audio>
     </div>
 
 </div>
@@ -213,6 +224,8 @@
             setTimeout(function () {
                 $('.loader').addClass('hidden');
                 $('.sans').addClass('fade_in');
+                $('.fx_sans').find('audio')[0].volume = .5;
+                $('.fx_sans').find('audio')[0].play();
                 setTimeout(function () {
                     $('body').removeClass('click-disabled');
                 },330);
@@ -227,7 +240,7 @@
             if(internal) {
                 $(target).append(message[index++]);
             } else {
-                $(target).text(message[index++]);
+                $(target).html(message[index++]);
             }
             setTimeout(function () {
                 showText(target, message, index, interval, true, audio);
@@ -237,104 +250,144 @@
         }
     }
 
-    var click = 0;
+    function character_talk(character,message) {
+        var audio = character.find('audio')[0];
+        var speech = character.find('.speech');
+        var speech_bubble = character.find('.speech .text-container');
+
+        if(!speech.hasClass('active')) {
+            // DISABLE ANY OTHER SPEECH BUBBLE
+            $('.character .speech.active').removeClass('active');
+            // ACTIVATE CHARACTER SPEECH BUBBLE
+            speech.addClass('active');
+        }
+        showText(speech_bubble, message, 0, 50, false, audio);
+    }
+
+    function change_sprite(show_sprite,hide_sprite) {
+        show_sprite.removeClass('hidden');
+        hide_sprite.addClass('hidden');
+    }
+
+    var click = 27;
     $(document).click(function () {
-        if(click < 20) {
+        if(click < 28) {
             if (!$('body').hasClass('click-disabled')) {
-                var speech = '.sans .speech .text-container';
-                var message = 'heya buddy';
-                var audio = $('.sans audio')[0],
-                    papyrus_audio = $('.papyrus audio')[0],
-                    drums_audio = $('.drums audio')[0];
-                var sans_speech = $('.sans .speech'),
-                    papyrus_speech = $('.papyrus .speech');
+                var character = sans = $('.sans'),
+                    papyrus = $('.papyrus'),
+                    drums = $('.drums');
+                // DUMMY MESSAGE
+                var message = 'd';
+                var sprite_sans_standing = character.find('#sans_standing'),
+                    sprite_sans_wink = character.find('#sans_wink');
                 switch (click) {
                     case 0:
-                        sans_speech.addClass('active');
+                        message = 'heya buddy';
                         break;
                     case 1:
-                        message = 'so... hey kid, i have to talk to you about a friend of yours';
+                        message = 'so, uh, i wanna tell you something';
                         break;
                     case 2:
-                        message = 'he can be a little "numbskull" and not always the best with words';
+                        message = 'that friend of yours over there';
                         break;
                     case 3:
-                        sans_speech.removeClass('active');
-                        papyrus_speech.addClass('active');
-                        speech = '.papyrus .speech .text-container';
-                        message = 'I\'M GREAT WITH WORDS!!!';
-                        audio = papyrus_audio;
+                        message = 'he is ruining my day off';
                         break;
                     case 4:
-                        sans_speech.addClass('active');
-                        papyrus_speech.removeClass('active');
-                        message = 'but nevermind that, he is a dear';
+                        character = papyrus;
+                        message = 'EVERY DAY IS A "DAY OFF" FOR YOU!!!';
                         break;
                     case 5:
-                        message = '...a papydear';
+                        message = 'hey, i just did a ton of work.\u200B\u200B\u200B\u200B\u200B a skele-ton';
                         break;
                     case 6:
-                        sans_speech.removeClass('active');
-                        audio = drums_audio;
+                        change_sprite(sprite_sans_wink,sprite_sans_standing);
+                        character = drums;
                         break;
                     case 7:
-                        sans_speech.addClass('active');
-                        message = 'you know, he is a sweet guy';
+                        change_sprite(sprite_sans_standing,sprite_sans_wink);
+                        message = 'y\'know, even if he is a little numbskull';
                         break;
                     case 8:
-                        message = 'truly cares for you';
+                        change_sprite(sprite_sans_standing,sprite_sans_wink);
+                        message = 'and not always the best with words';
                         break;
                     case 9:
-                        message = 'and he loves you quite a lot';
+                        character = papyrus;
+                        message = 'I\'M GREAT WITH WORDS!!!';
                         break;
                     case 10:
-                        message = 'of course, you probably already know that';
+                        message = 'he is a dear.\u200B\u200B\u200B\u200B\u200B a papydear';
                         break;
                     case 11:
-                        message = 'what i\'m trying to say is...';
+                        change_sprite(sprite_sans_wink,sprite_sans_standing);
+                        character = drums;
                         break;
                     case 12:
-                        message = 'you both would make a cute couple';
+                        change_sprite(sprite_sans_standing,sprite_sans_wink);
+                        character = papyrus;
+                        message = 'WHAT?';
                         break;
                     case 13:
-                        message = 'i\'m sure you\'d be very happy together';
+                        message = 'i think it is kinda sweet of him';
                         break;
                     case 14:
-                        message = 'and probably you\'d eat lots of food';
+                        message = 'to have to go through all this trouble';
                         break;
                     case 15:
-                        sans_speech.removeClass('active');
-                        papyrus_speech.addClass('active');
-                        speech = '.papyrus .speech .text-container';
-                        message = 'THE BEST SPAGHETTI NYEHEHEHE!!!';
-                        audio = papyrus_audio;
+                        message = 'to ask me to tell you this';
                         break;
                     case 16:
-                        sans_speech.addClass('active');
-                        papyrus_speech.removeClass('active');
-                        message = 'i hope you put some ketchup on that';
+                        message = 'it shows how much he cares for you';
                         break;
                     case 17:
-                        message = 'anyway kiddo, so it comes down to this';
+                        change_sprite(sprite_sans_wink,sprite_sans_standing);
+                        message = 'having me here is proof enough of true love';
                         break;
                     case 18:
-                        message = 'a final battle approaches';
+                        change_sprite(sprite_sans_standing,sprite_sans_wink);
+                        character = papyrus;
+                        message = 'IT WOULD HAVE BEEN BETTER IF HE ASKED ME, THE GREAT PAPYRUS, TO HELP!!!';
                         break;
                     case 19:
+                        message = 'what i\'m trying to say is...\u200B\u200B\u200B\u200B\u200B you would make a cute couple';
+                        break;
+                    case 20:
+                        message = 'i\'m sure you\'d be very happy together';
+                        break;
+                    case 21:
+                        message = 'and most likely you\'d eat lots of food';
+                        break;
+                    case 22:
+                        character = papyrus;
+                        message = 'THE BEST SPAGHETTI NYEHEHEHE!!!';
+                        break;
+                    case 23:
+                        message = 'you better put some ketchup on that';
+                        break;
+                    case 24:
+                        message = 'anyway kiddo, you\'ve made it this far';
+                        break;
+                    case 25:
+                        message = 'in a few moments\u200B\u200B\u200B\u200B you\'ll have to face a choice';
+                        break;
+                    case 26:
+                        message = 'you will determine the future of this story';
                         break;
                 }
 
-                if (click < 19) {
-                    showText(speech, message, 0, 50, false, audio);
-                    click++;
+                if (click < 27) {
+                    character_talk(character,message);
                 } else {
                     $('.sans').removeClass('fade_in').addClass('fade_out');
                     setTimeout(function () {
                         $('.character').addClass('hidden');
                         $('.scenario.choice').removeClass('hidden');
+                        $('.fx_sans').find('audio')[0].pause();
                         $('.scenario.choice').find('audio')[0].play();
                     }, 330);
                 }
+                click++;
             }
         }
     });
@@ -351,7 +404,26 @@
             $('.scenario.gamaovar-yes audio')[0].play();
 
         }, 500);
-        $(document).off('click');
+        $(document).not('#secret_buttonm').click(function () {
+            return false;
+        });
+    });
+
+
+    $('#secret_button').click(function () {
+        var gamaovar_scenario = $('.scenario.gamaovar-yes');
+        gamaovar_scenario.addClass('fade_out');
+
+        gamaovar_scenario.find('audio')[0].pause();
+
+        setTimeout(function () {
+            gamaovar_scenario.addClass('hidden');
+            $('.scenario.secret').removeClass('hidden');
+            $('.scenario.secret audio')[0].play();
+            setTimeout(function () {
+                $('.scenario img').addClass('fade_in');
+            },2200);
+        }, 500);
     });
 
     $('#btn-nope').click(function () {
