@@ -73,7 +73,7 @@ body {
     height: 100vh;
 }
 
-.character {
+.character:not('.flowey') {
     position: relative;
     max-width: 600px;
     margin:  0 auto;
@@ -81,7 +81,7 @@ body {
     transform: translateY(-50%);
 }
 
-.character img {
+.sans.character img {
     position: relative;
     left: -30px;
 }
@@ -219,14 +219,14 @@ body {
     opacity: 0;
 }
 
-.sans .speech::after {
+.character.main .speech::after {
     left: -20px;
     border-right: 20px solid #FFF;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
 }
 
-.papyrus .speech::after {
+.character.right .speech::after {
     right: -20px;
     border-left: 20px solid #FFF;
     border-top: 8px solid transparent;
@@ -292,4 +292,11 @@ svg {
     left: 6px;
     border-top: 8px solid #FFF;
     border-right: 6px transparent solid;
+}
+
+#flowey_glitch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
